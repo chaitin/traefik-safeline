@@ -1,4 +1,4 @@
-module traefik_safeline
+module github.com/xbingW/traefik-safeline
 
 go 1.17
 
