@@ -1,0 +1,6 @@
+# github.com/xbingW/t1k v1.0.9
+## explicit; go 1.17
+github.com/xbingW/t1k/detector
+github.com/xbingW/t1k/pkg/datetime
+github.com/xbingW/t1k/pkg/rand
+github.com/xbingW/t1k/pkg/t1k
