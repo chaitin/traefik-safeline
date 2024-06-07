@@ -46,7 +46,7 @@ http:
       entryPoints:
         - web
       middlewares:
-        - my-plugin
+        - chaitin
 
   services:
    service-foo:
@@ -55,7 +55,7 @@ http:
           - url: http://127.0.0.1:5000
   
   middlewares:
-    my-plugin:
+    chaitin:
       plugin:
         safeline:
           addr: safeline-detector.safeline:8000
