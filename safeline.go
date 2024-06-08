@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/xbingW/t1k/detector"
+	"github.com/xbingW/t1k"
 )
 
 // Package example a example plugin.
@@ -55,7 +55,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (s *Safeline) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	d := detector.NewDetector(detector.Config{
+	d := t1k.NewDetector(t1k.Config{
 		Addr:        s.config.Addr,
 		IpHeader:    s.config.IpHeader,
 		IpLastIndex: s.config.IpLastIndex,
