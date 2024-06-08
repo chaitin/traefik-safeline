@@ -21,13 +21,13 @@ type Config struct {
 	Addr string `json:"addr"`
 	// Get ip from header, if not set, get ip from remote addr
 	IpHeader string `json:"ip_header"`
-	// When ip_header has multiple ip, use this to get the last ip
+	// When ip_header has multiple ip, use this to get ip from right
 	//
 	//for example, X-Forwarded-For: ip1, ip2, ip3
 	// 	when ip_last_index is 0, the client ip is ip3
 	// 	when ip_last_index is 1, the client ip is ip2
 	// 	when ip_last_index is 2, the client ip is ip1
-	IpLastIndex uint `json:"ip_last_index"`
+	IPRightIndex uint `json:"ip_right_index"`
 }
 
 func NewDetector(cfg Config) *Detector {
@@ -136,8 +136,8 @@ func (d *Detector) getClientIP(req *http.Request) (string, error) {
 		ips := req.Header.Get(d.cfg.IpHeader)
 		if ips != "" {
 			ipList := reverseStrSlice(strings.Split(ips, ","))
-			if len(ipList) > int(d.cfg.IpLastIndex) {
-				return strings.TrimSpace(ipList[d.cfg.IpLastIndex]), nil
+			if len(ipList) > int(d.cfg.IPRightIndex) {
+				return strings.TrimSpace(ipList[d.cfg.IPRightIndex]), nil
 			}
 			return ipList[0], nil
 		}

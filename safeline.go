@@ -24,15 +24,15 @@ type Config struct {
 	// 	when ip_last_index is 0, the client ip is ip3
 	// 	when ip_last_index is 1, the client ip is ip2
 	// 	when ip_last_index is 2, the client ip is ip1
-	IpLastIndex uint `json:"ip_last_index"`
+	IPRightIndex uint `json:"ip_right_index"`
 }
 
 // CreateConfig creates the default plugin configuration.
 func CreateConfig() *Config {
 	return &Config{
-		Addr:        "",
-		IpHeader:    "",
-		IpLastIndex: 0,
+		Addr:         "",
+		IpHeader:     "",
+		IPRightIndex: 0,
 	}
 }
 
@@ -56,9 +56,9 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 
 func (s *Safeline) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	d := t1k.NewDetector(t1k.Config{
-		Addr:        s.config.Addr,
-		IpHeader:    s.config.IpHeader,
-		IpLastIndex: s.config.IpLastIndex,
+		Addr:         s.config.Addr,
+		IpHeader:     s.config.IpHeader,
+		IPRightIndex: s.config.IPRightIndex,
 	})
 	resp, err := d.DetectorRequest(req)
 	if err != nil {
