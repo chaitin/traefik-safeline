@@ -15,16 +15,16 @@ import (
 // Config the plugin configuration.
 type Config struct {
 	// Addr is the address for the detector
-	Addr string `json:"addr"`
+	Addr string `yaml:"addr"`
 	// Get ip from header, if not set, get ip from remote addr
-	IpHeader string `json:"ip_header"`
-	// When ip_header has multiple ip, use this to get the last ip
+	IpHeader string `yaml:"ipHeader"`
+	// When ip_header has multiple ip, use this to get the ip
 	//
 	//for example, X-Forwarded-For: ip1, ip2, ip3
 	// 	when ip_last_index is 0, the client ip is ip3
 	// 	when ip_last_index is 1, the client ip is ip2
 	// 	when ip_last_index is 2, the client ip is ip1
-	IPRightIndex uint `json:"ip_right_index"`
+	IPRightIndex uint `yaml:"ipRightIndex"`
 }
 
 // CreateConfig creates the default plugin configuration.
