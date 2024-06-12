@@ -1,4 +1,4 @@
-# github.com/xbingW/t1k v1.2.0
+# github.com/xbingW/t1k v1.2.1
 ## explicit; go 1.17
 github.com/xbingW/t1k
 github.com/xbingW/t1k/pkg/datetime
