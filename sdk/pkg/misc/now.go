@@ -1,6 +1,8 @@
-package datetime
+package misc
 
-import "time"
+import (
+	"time"
+)
 
 func Now() int64 {
 	return time.Now().UnixNano() / 1e3

@@ -1,6 +1,6 @@
 package t1k
 
-type Tag byte
+type Tag uint8
 
 const (
 	TAG_HEADER       Tag = 0x01
@@ -19,8 +19,6 @@ const (
 	TAG_WEB_LOG      Tag = 0x27
 	TAG_USER_DATA    Tag = 0x28
 	TAG_BOT_QUERY    Tag = 0x29
-	TAG_DELAY        Tag = 0x2b
-	TAG_FORWARD      Tag = 0x2c
 	TAG_BOT_BODY     Tag = 0x30
 
 	MASK_TAG   Tag = 0x3f
@@ -28,18 +26,14 @@ const (
 	MASK_LAST  Tag = 0x80
 )
 
-func (t Tag) Last() bool {
-	return t&MASK_LAST != 0
+func (t Tag) IsFirst() bool {
+	return !(0 == (t & MASK_FIRST))
 }
 
-func (t Tag) First() bool {
-	return t&MASK_FIRST != 0
+func (t Tag) IsLast() bool {
+	return !(0 == (t & MASK_LAST))
 }
 
 func (t Tag) Strip() Tag {
 	return t & MASK_TAG
-}
-
-func (t Tag) Byte() byte {
-	return byte(t)
 }
