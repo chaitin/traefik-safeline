@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/xbingW/traefik_safeline/sdk/pkg/gosnserver"
+	"github.com/xbingW/t1k"
 )
 
 // Package example a example plugin.
@@ -29,7 +29,7 @@ func CreateConfig() *Config {
 // Safeline a plugin.
 type Safeline struct {
 	next   http.Handler
-	server *gosnserver.Server
+	server *t1k.Server
 	name   string
 	config *Config
 	logger *log.Logger
@@ -39,7 +39,7 @@ type Safeline struct {
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
 	logger := log.New(os.Stdout, "safeline", log.LstdFlags)
 	logger.Printf("config: %+v", config)
-	server, err := gosnserver.NewWithPoolSize(config.Addr, config.PoolSize)
+	server, err := t1k.NewWithPoolSize(config.Addr, config.PoolSize)
 	if err != nil {
 		return nil, err
 	}
