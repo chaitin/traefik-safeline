@@ -2,6 +2,7 @@ package traefik_safeline
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -84,8 +85,12 @@ func (s *Safeline) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 	if result.Blocked() {
-		rw.WriteHeader(http.StatusForbidden)
-		_, _ = rw.Write([]byte("Blocked by safeline\n"))
+		rw.WriteHeader(result.StatusCode())
+		msg := fmt.Sprintf(`{"code": %d, "success":false, "message": "blocked by Chaitin SafeLine Web Application Firewall", "event_id": "%s"}`,
+			result.StatusCode(),
+			result.EventID(),
+		)
+		_, _ = rw.Write([]byte(msg))
 		return
 	}
 	s.next.ServeHTTP(rw, req)
