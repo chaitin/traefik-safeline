@@ -8,7 +8,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/xbingW/t1k"
+	t1k "github.com/chaitin/t1k-go"
 )
 
 // Package example a example plugin.

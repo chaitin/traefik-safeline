@@ -1,9 +1,9 @@
-# github.com/xbingW/t1k v1.3.0
+# github.com/chaitin/t1k-go v1.5.0
 ## explicit; go 1.17
-github.com/xbingW/t1k
-github.com/xbingW/t1k/detection
-github.com/xbingW/t1k/misc
-github.com/xbingW/t1k/t1k
+github.com/chaitin/t1k-go
+github.com/chaitin/t1k-go/detection
+github.com/chaitin/t1k-go/misc
+github.com/chaitin/t1k-go/t1k
 # golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028
 ## explicit; go 1.18
 golang.org/x/xerrors

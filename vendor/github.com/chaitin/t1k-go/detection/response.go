@@ -4,10 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 
-	"github.com/xbingW/t1k/misc"
+	"github.com/chaitin/t1k-go/misc"
 )
 
 type Response interface {
@@ -56,12 +55,12 @@ func (r *HttpResponse) Header() ([]byte, error) {
 }
 
 func (r *HttpResponse) Body() (uint32, io.ReadCloser, error) {
-	bodyBytes, err := ioutil.ReadAll(r.rsp.Body)
+	bodyBytes, err := io.ReadAll(r.rsp.Body)
 	if err != nil {
 		return 0, nil, misc.ErrorWrapf(err, "get body size %d", len(bodyBytes))
 	}
-	r.rsp.Body = ioutil.NopCloser(bytes.NewReader(bodyBytes))
-	return uint32(len(bodyBytes)), ioutil.NopCloser(bytes.NewReader(bodyBytes)), nil
+	r.rsp.Body = io.NopCloser(bytes.NewReader(bodyBytes))
+	return uint32(len(bodyBytes)), io.NopCloser(bytes.NewReader(bodyBytes)), nil
 }
 
 func (r *HttpResponse) Extra() ([]byte, error) {

@@ -6,9 +6,10 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/xbingW/t1k/detection"
-	"github.com/xbingW/t1k/misc"
-	"github.com/xbingW/t1k/t1k"
+	"github.com/chaitin/t1k-go/detection"
+	"github.com/chaitin/t1k-go/t1k"
+
+	"github.com/chaitin/t1k-go/misc"
 )
 
 func writeDetectionRequest(w io.Writer, req detection.Request) error {
@@ -243,7 +244,8 @@ func Detect(s io.ReadWriter, dc *detection.DetectionContext) (*detection.Result,
 }
 
 func DetectHttpRequest(s io.ReadWriter, req *http.Request) (*detection.Result, error) {
-	return doDetectRequest(s, detection.MakeHttpRequest(req))
+	dc, _ := detection.MakeContextWithRequest(req)
+	return doDetectRequest(s, detection.MakeHttpRequestInCtx(req, dc))
 }
 
 func DetectRequest(s io.ReadWriter, req detection.Request) (*detection.Result, error) {

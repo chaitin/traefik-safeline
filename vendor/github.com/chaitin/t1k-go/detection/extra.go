@@ -3,7 +3,7 @@ package detection
 import (
 	"fmt"
 
-	"github.com/xbingW/t1k/misc"
+	"github.com/chaitin/t1k-go/misc"
 )
 
 func MakeRequestExtra(

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/xbingW/t1k/misc"
+	"github.com/chaitin/t1k-go/misc"
 )
 
 type Section interface {

@@ -2,12 +2,14 @@ package detection
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
+	"net"
 	"net/http"
+	"strconv"
 
-	"github.com/xbingW/t1k/misc"
+	"github.com/chaitin/t1k-go/misc"
 )
 
 type Request interface {
@@ -41,6 +43,48 @@ func MakeHttpRequestInCtx(req *http.Request, dc *DetectionContext) *HttpRequest 
 	return ret
 }
 
+func (r *HttpRequest) GetUpstreamAddress() (string, error) {
+	if r.req.Host == "" {
+		return "", errors.New("empty Host in request")
+	}
+	host, _, err := net.SplitHostPort(r.req.Host)
+	if err != nil {
+		return r.req.Host, nil // OK; there probably was no port
+	}
+	return host, nil
+}
+
+func (r *HttpRequest) GetUpstreamPort() (uint16, error) {
+	_, port, err := net.SplitHostPort(r.req.Host)
+	if err != nil {
+		if r.req.TLS != nil {
+			return 443, nil
+		} else {
+			return 80, nil
+		}
+	}
+	if portNum, err := strconv.Atoi(port); err == nil {
+		return uint16(portNum), nil
+	}
+	return 0, errors.New("wrong value of port")
+}
+
+func (r *HttpRequest) GetRemoteIP() (string, error) {
+	host, _, err := net.SplitHostPort(r.req.RemoteAddr)
+	if err != nil {
+		return r.req.RemoteAddr, nil
+	}
+	return host, nil
+}
+
+func (r *HttpRequest) GetRemotePort() (uint16, error) {
+	_, port, _ := net.SplitHostPort(r.req.RemoteAddr)
+	if portNum, err := strconv.Atoi(port); err == nil {
+		return uint16(portNum), nil
+	}
+	return 0, errors.New("wrong value of port")
+}
+
 func (r *HttpRequest) Header() ([]byte, error) {
 	var buf bytes.Buffer
 	proto := r.req.Proto
@@ -72,12 +116,12 @@ func (r *HttpRequest) Header() ([]byte, error) {
 }
 
 func (r *HttpRequest) Body() (uint32, io.ReadCloser, error) {
-	bodyBytes, err := ioutil.ReadAll(r.req.Body)
+	bodyBytes, err := io.ReadAll(r.req.Body)
 	if err != nil {
 		return 0, nil, err
 	}
-	r.req.Body = ioutil.NopCloser(bytes.NewReader(bodyBytes))
-	return uint32(len(bodyBytes)), ioutil.NopCloser(bytes.NewReader(bodyBytes)), nil
+	r.req.Body = io.NopCloser(bytes.NewReader(bodyBytes))
+	return uint32(len(bodyBytes)), io.NopCloser(bytes.NewReader(bodyBytes)), nil
 }
 
 func (r *HttpRequest) Extra() ([]byte, error) {
